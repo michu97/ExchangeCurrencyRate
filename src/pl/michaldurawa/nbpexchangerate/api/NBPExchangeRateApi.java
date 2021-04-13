@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class NBPExchangeRateApi {
 	
@@ -14,6 +16,17 @@ public class NBPExchangeRateApi {
 	private static final String ContentType = "Content-Type";
 	private static final String ApplicationJson = "application/json";
 	private static final String ApiUrl = "http://api.nbp.pl/api/exchangerates/tables/";
+	
+	public CurrencyRateTable getTable() {
+		try {
+			String content = getJson(new URL(ApiUrl + "A"));
+			ObjectMapper om = new ObjectMapper();
+			CurrencyRateTable[] table = om.readValue(content, CurrencyRateTable[].class);
+			return table[0];
+		} catch (Exception e) {
+		}
+		return null;
+	}
 	
 	public String getExchangeRateTable() {
 		try {

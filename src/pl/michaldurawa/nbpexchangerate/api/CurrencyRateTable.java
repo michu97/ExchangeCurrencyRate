@@ -3,10 +3,10 @@ package pl.michaldurawa.nbpexchangerate.api;
 import java.util.List;
 
 public class CurrencyRateTable {
-	private String table;
-    private String no;
-    private String effectiveDate;
-    private List<CurrencyRate> rates;
+	public String table;
+    public String no;
+    public String effectiveDate;
+    public List<CurrencyRate> rates;
     
 	public String getTable() {
 		return table;
