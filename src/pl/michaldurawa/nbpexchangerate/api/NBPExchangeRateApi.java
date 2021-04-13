@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
+import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -23,9 +26,30 @@ public class NBPExchangeRateApi {
 			ObjectMapper om = new ObjectMapper();
 			CurrencyRateTable[] table = om.readValue(content, CurrencyRateTable[].class);
 			return table[0];
-		} catch (Exception e) {
+		} catch (IOException e) {
+			
 		}
 		return null;
+	}
+	
+	public CurrencyRateTable getTable(String date) {
+		try {
+			String content = getJson(new URL(ApiUrl + "A/" + date));
+			ObjectMapper om = new ObjectMapper();
+			CurrencyRateTable[] table = om.readValue(content, CurrencyRateTable[].class);
+			return table[0];
+		} catch (Exception e) {
+			
+		}
+		return null;
+	}
+	
+	public Optional<CurrencyRate> getCurrencyRate(String code) {
+		CurrencyRateTable table = getTable();
+		
+		return table.getRates().stream()
+		.filter(c -> c.getCode().equals(code))
+		.findFirst();
 	}
 	
 	public String getExchangeRateTable() {

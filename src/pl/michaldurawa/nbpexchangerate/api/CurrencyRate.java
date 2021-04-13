@@ -1,9 +1,11 @@
 package pl.michaldurawa.nbpexchangerate.api;
 
+import java.math.BigDecimal;
+
 public class CurrencyRate {
 	private String currency;
     private String code;
-    private double mid;
+    private BigDecimal mid;
     
 	public String getCurrency() {
 		return currency;
@@ -17,10 +19,12 @@ public class CurrencyRate {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public double getMid() {
+	public BigDecimal getMid() {
 		return mid;
 	}
-	public void setMid(double mid) {
+	public void setMid(BigDecimal mid) {
 		this.mid = mid;
 	}
+	
+	
 }
