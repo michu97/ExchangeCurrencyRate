@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -27,6 +28,12 @@ public class Main {
 		
 		Optional<CurrencyRate> currencyRate = api.getCurrencyRateByCode("USD");
 		currencyRate.ifPresent(x -> System.out.println(x.getMid()));
+		
+		Map<LocalDate, Optional<CurrencyRate>> currencyRateBeetweenDates = api.getCurrencyRateBeetweenDates("USD", LocalDate.of(2021, 3, 1), LocalDate.of(2021, 4, 5));
+		for (Map.Entry<LocalDate, Optional<CurrencyRate>> entry : currencyRateBeetweenDates.entrySet()) {
+			System.out.println(entry.getKey() + " " + entry.getValue().get().getCode() + entry.getValue().get().getMid());
+		}
+		
 	}
 
 }

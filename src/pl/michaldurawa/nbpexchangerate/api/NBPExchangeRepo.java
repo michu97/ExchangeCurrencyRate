@@ -9,7 +9,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +21,25 @@ public class NBPExchangeRepo {
 	private static final String ContentType = "Content-Type";
 	private static final String ApplicationJson = "application/json";
 	private static final String ApiUrl = "http://api.nbp.pl/api/exchangerates/tables/A/";
+	
+	public Optional<CurrencyRate> getCurrencyRateByCodByDate(String code, LocalDate date) {
+			CurrencyRateTable table = getTable(date);
+			return table.getRates().stream()
+					.filter(x -> x.getCode().equals(code))
+					.findFirst();
+	}
+	
+	public Map<LocalDate, Optional<CurrencyRate>> getCurrencyRateBeetweenDates(String code, LocalDate startDate, LocalDate endDate) {
+		Map<LocalDate, Optional<CurrencyRate>> map = new HashMap<>();
+		List<CurrencyRateTable> table = getTable(startDate, endDate);
+		for (var c : table) {
+			map.put(c.getEffectiveDate(), c.getRates().stream()
+					.filter(x -> x.getCode().equals(code))
+					.findFirst());
+		}
+		return map;
+		
+	}
 	
 	public CurrencyRateTable getTable() {
 		try {
