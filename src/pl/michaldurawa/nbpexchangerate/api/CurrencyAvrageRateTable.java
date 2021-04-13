@@ -7,12 +7,12 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class CurrencyRateTable {
+public class CurrencyAvrageRateTable {
 	private String table;
     private String no;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "pl_PL")
     private Date effectiveDate;
-    private List<CurrencyRate> rates;
+    private List<CurrencyAvrageRate> rates;
     
 	public String getTable() {
 		return table;
@@ -32,10 +32,10 @@ public class CurrencyRateTable {
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
-	public List<CurrencyRate> getRates() {
+	public List<CurrencyAvrageRate> getRates() {
 		return rates;
 	}
-	public void setRates(List<CurrencyRate> rates) {
+	public void setRates(List<CurrencyAvrageRate> rates) {
 		this.rates = rates;
 	}
     

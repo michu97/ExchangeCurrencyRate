@@ -2,7 +2,7 @@ package pl.michaldurawa.nbpexchangerate.api;
 
 import java.math.BigDecimal;
 
-public class CurrencyRate {
+public class CurrencyAvrageRate {
 	private String currency;
     private String code;
     private BigDecimal mid;
