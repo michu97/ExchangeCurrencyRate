@@ -38,6 +38,22 @@ public class Main {
 		BuySellTableRate buy = api.getBuySellTable();
 		
 		System.out.println(buy.getRates().get(0).getBid());
+		BuySellTableRate buySellTable = api.getBuySellTable(LocalDate.of(2021, 4, 2));
+		
+		System.out.println(buySellTable.getRates().get(0).getAsk());
+		
+		Optional<CurrencyAvrageRate> currencyRateByCode = api.getCurrencyRateByCode("EUR");
+		currencyRateByCode.ifPresent((x -> System.out.println(x.getCode())));
+		
+		
+		List<BuySellTableRate> tableBeetwenDates = api.getBuySellTableBeetwenDates(LocalDate.of(2021, 2, 1), LocalDate.of(2021, 2, 25));
+		
+		for (var rate : tableBeetwenDates) {
+			System.out.print(rate.getEffectiveDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+			rate.getRates().forEach(x -> System.out.print(" "+x.getAsk()+ " " + x.getCode()));
+			System.out.println();
+		}
+		
 	}
 
 }
