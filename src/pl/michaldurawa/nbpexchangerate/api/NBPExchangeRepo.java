@@ -3,6 +3,8 @@ package pl.michaldurawa.nbpexchangerate.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -23,14 +25,24 @@ public class NBPExchangeRepo {
 	private static final String ApiUrl = "http://api.nbp.pl/api/exchangerates/tables/A/";
 	private static final String ApiUrlC = "http://api.nbp.pl/api/exchangerates/tables/C/";
 	
-	public Optional<CurrencyAvrageRate> getCurrencyRateByCodByDate(String code, LocalDate date) {
+	public Map<String, BigDecimal> getTableInPLN(LocalDate date, BigDecimal amount) {
+		Map<String, BigDecimal> amountMap = new HashMap<>();
+		BuySellTableRate buySellTable = getBuySellTable(date);
+		List<BuySellRate> rates = buySellTable.getRates();
+		for (var r : rates) {
+			amountMap.put(r.getCode(), amount.divide(r.getBid(), 2, RoundingMode.UP));
+		}
+		return amountMap;
+	}
+	
+	public Optional<CurrencyAvrageRate> getAvrageCurrencyRateByCodAndDate(String code, LocalDate date) {
 			CurrencyAvrageRateTable table = getTable(date);
 			return table.getRates().stream()
 					.filter(x -> x.getCode().equals(code))
 					.findFirst();
 	}
 	
-	public Optional<BuySellRate> getCurrencyBuySellRateByCodByDate(String code, LocalDate date) {
+	public Optional<BuySellRate> getCurrencyBuySellRateByCodAndDate(String code, LocalDate date) {
 		BuySellTableRate table = getBuySellTable(date);
 		return table.getRates().stream()
 				.filter(x -> x.getCode().equals(code))
@@ -66,7 +78,7 @@ public class NBPExchangeRepo {
 			CurrencyAvrageRateTable[] table = om.readValue(content, CurrencyAvrageRateTable[].class);
 			return table[0];
 		} catch (IOException e) {
-			throw new RuntimeException();
+			throw new RuntimeException("bad response", e);
 		}
 	}
 	
@@ -77,9 +89,8 @@ public class NBPExchangeRepo {
 			BuySellTableRate[] table = om.readValue(content, BuySellTableRate[].class);
 			return table[0];
 		} catch (IOException e) {
-			
+			throw new RuntimeException("bad response", e);
 		}
-		return null;
 	}
 	
 	public CurrencyAvrageRateTable getTable(LocalDate date) {
@@ -89,9 +100,8 @@ public class NBPExchangeRepo {
 			CurrencyAvrageRateTable[] table = om.readValue(content, CurrencyAvrageRateTable[].class);
 			return table[0];
 		} catch (Exception e) {
-			
+			throw new RuntimeException("bad response", e);
 		}
-		return null;
 	}
 	
 	public BuySellTableRate getBuySellTable(LocalDate date) {
@@ -101,9 +111,8 @@ public class NBPExchangeRepo {
 			BuySellTableRate[] table = om.readValue(content, BuySellTableRate[].class);
 			return table[0];
 		} catch (Exception e) {
-			
+			throw new RuntimeException("bad response", e);
 		}
-		return null;
 	}
 	
 	public Optional<CurrencyAvrageRate> getCurrencyRate(String code) {
@@ -130,9 +139,8 @@ public class NBPExchangeRepo {
 			CurrencyAvrageRateTable[] table = om.readValue(content, CurrencyAvrageRateTable[].class);
 			return (List<CurrencyAvrageRateTable>) Arrays.asList(table);
 		} catch (Exception e) {
-			
+			throw new RuntimeException("bad response", e);
 		}
-		return null;
 	}
 	
 	public List<BuySellTableRate> getBuySellTable(LocalDate startDate, LocalDate endDate) {
@@ -143,9 +151,8 @@ public class NBPExchangeRepo {
 			BuySellTableRate[] table = om.readValue(content, BuySellTableRate[].class);
 			return (List<BuySellTableRate>) Arrays.asList(table);
 		} catch (Exception e) {
-			
+			throw new RuntimeException("bad response", e);
 		}
-		return null;
 	}
 	
 	
@@ -156,9 +163,8 @@ public class NBPExchangeRepo {
 			con.disconnect();
 			return content.toString();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException("connection error", e);
 		}
-		return "";
 	}
 
 	private StringBuffer getContent(HttpURLConnection con) throws IOException {
@@ -175,8 +181,11 @@ public class NBPExchangeRepo {
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod(GET);
 		con.setRequestProperty(ContentType, ApplicationJson);
+		int code = con.getResponseCode();
+		if (code == 404 || code == 400) 
+			throw new RuntimeException("bad request");
 		return con;
 	}
-	
+
 	
 }

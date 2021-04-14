@@ -1,9 +1,8 @@
 package pl.michaldurawa.nbpexchangerate.api;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,25 +34,17 @@ public class Main {
 //		}
 		
 		
-		BuySellTableRate buy = api.getBuySellTable();
+//		Map<LocalDate, Optional<BuySellRate>> map = api.getCurrencyBuySellRateBeetweenDates("USD", LocalDate.of(2021, 2, 1), LocalDate.of(2021, 2, 25));
+//		map.forEach((k, v) -> {
+//			System.out.println(k.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + v.get().getAsk() + " " + v.get().getCode() + " " + v.get().getBid());
+//		});
 		
-		System.out.println(buy.getRates().get(0).getBid());
-		BuySellTableRate buySellTable = api.getBuySellTable(LocalDate.of(2021, 4, 2));
+		Map<String, BigDecimal> tableInPLN = api.getTableInPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35));
 		
-		System.out.println(buySellTable.getRates().get(0).getAsk());
+		tableInPLN.entrySet().stream().forEach(e -> {
+			System.out.println(e.getKey() + " " + e.getValue());
+		});
 		
-		Optional<CurrencyAvrageRate> currencyRateByCode = api.getCurrencyRateByCode("EUR");
-		currencyRateByCode.ifPresent((x -> System.out.println(x.getCode())));
-		
-		
-		List<BuySellTableRate> tableBeetwenDates = api.getBuySellTableBeetwenDates(LocalDate.of(2021, 2, 1), LocalDate.of(2021, 2, 25));
-		
-		for (var rate : tableBeetwenDates) {
-			System.out.print(rate.getEffectiveDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-			rate.getRates().forEach(x -> System.out.print(" "+x.getAsk()+ " " + x.getCode()));
-			System.out.println();
-		}
 		
 	}
-
 }

@@ -1,5 +1,6 @@
 package pl.michaldurawa.nbpexchangerate.api;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class NBPExchangeRateApi {
 	}
 	
 	public Optional<CurrencyAvrageRate> getCurrencyRateByCodAndDate(String code, LocalDate date) {
-		return repo.getCurrencyRateByCodByDate(code, date);
+		return repo.getAvrageCurrencyRateByCodAndDate(code, date);
 	}
 	
 	public Map<LocalDate, Optional<CurrencyAvrageRate>> getCurrencyRateBeetweenDates(String code, LocalDate startDate, LocalDate endDate) {
@@ -55,11 +56,15 @@ public class NBPExchangeRateApi {
 	}
 	
 	public Optional<BuySellRate> getCurrencyBuySellRateByCodAndDate(String code, LocalDate date) {
-		return repo.getCurrencyBuySellRateByCodByDate(code, date);
+		return repo.getCurrencyBuySellRateByCodAndDate(code, date);
 	}
 	
 	public Map<LocalDate, Optional<BuySellRate>> getCurrencyBuySellRateBeetweenDates(String code, LocalDate startDate, LocalDate endDate) {
 		return repo.getCurrencyBuySellRateBeetweenDates(code, startDate, endDate);
+	}
+	
+	public Map<String, BigDecimal> getTableInPLN(LocalDate date, BigDecimal amount) {
+		return repo.getTableInPLN(date, amount);
 	}
 	
 }
