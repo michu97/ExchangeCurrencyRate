@@ -39,13 +39,13 @@ public class Main {
 //			System.out.println(k.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + v.get().getAsk() + " " + v.get().getCode() + " " + v.get().getBid());
 //		});
 		
-		Map<String, BigDecimal> tableInPLN = api.getTableInPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35));
+		Map<String, BigDecimal> tableInPLN = api.getTableFromPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35));
 		
 		tableInPLN.entrySet().stream().forEach(e -> {
 			System.out.println(e.getKey() + " " + e.getValue());
 		});
 		
-		Optional<BigDecimal> amountInPLN = api.getAmountInPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35), "USD");
+		Optional<BigDecimal> amountInPLN = api.getAmountFromPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35), "USD");
 		amountInPLN.ifPresent(x -> System.out.println(x));
 		
 	}

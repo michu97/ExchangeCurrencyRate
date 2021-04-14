@@ -63,12 +63,21 @@ public class NBPExchangeRateApi {
 		return repo.getCurrencyBuySellRateBeetweenDates(code, startDate, endDate);
 	}
 	
-	public Map<String, BigDecimal> getTableInPLN(LocalDate date, BigDecimal amount) {
-		return repo.getTableInPLN(date, amount);
+	public Map<String, BigDecimal> getTableFromPLN(LocalDate date, BigDecimal pln) {
+		return repo.getTableFromPLN(date, pln);
 	}
 	
-	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal amount, String code) {
-		return repo.getAmountInPLN(date, amount, code);
+	public Optional<BigDecimal> getAmountFromPLN(LocalDate date, BigDecimal pln, String code) {
+		return repo.getAmountFromPLN(date, pln, code);
 	}
+	
+	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal foreignExchange, String code) {
+		return repo.getAmountInPLN(date, foreignExchange, code);
+	}
+	
+	public Optional<BigDecimal> getAmountInPLNByAvrageRate(LocalDate date, BigDecimal foreignExchange, String code) {
+		return repo.getAmountInPLNByAvrageRate(date, foreignExchange, code);
+	}
+	
 	
 }

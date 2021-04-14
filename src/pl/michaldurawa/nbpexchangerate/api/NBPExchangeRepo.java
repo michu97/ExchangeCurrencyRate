@@ -25,19 +25,34 @@ public class NBPExchangeRepo {
 	private static final String ApiUrl = "http://api.nbp.pl/api/exchangerates/tables/A/";
 	private static final String ApiUrlC = "http://api.nbp.pl/api/exchangerates/tables/C/";
 	
-	public Map<String, BigDecimal> getTableInPLN(LocalDate date, BigDecimal amount) {
+	public Map<String, BigDecimal> getTableFromPLN(LocalDate date, BigDecimal pln) {
 		Map<String, BigDecimal> amountMap = new HashMap<>();
 		BuySellTableRate buySellTable = getBuySellTable(date);
 		List<BuySellRate> rates = buySellTable.getRates();
 		for (var r : rates) {
-			amountMap.put(r.getCode(), amount.divide(r.getBid(), 2, RoundingMode.UP));
+			amountMap.put(r.getCode(), pln.divide(r.getBid(), 2, RoundingMode.UP));
 		}
 		return amountMap;
 	}
 	
-	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal amount, String code) {
+	public Optional<BigDecimal> getAmountFromPLN(LocalDate date, BigDecimal amount, String code) {
 		Optional<BuySellRate> value = getCurrencyBuySellRateByCodAndDate(code, date);
 		return value.map(x -> amount.divide(x.getBid(), 2, RoundingMode.UP));
+	}
+	
+	public Optional<BigDecimal> getAmountFromPLNByAvrageRate(LocalDate date, BigDecimal amount, String code) {
+		Optional<CurrencyAvrageRate> value = getAvrageCurrencyRateByCodAndDate(code, date);
+		return value.map(x -> amount.divide(x.getMid(), 2, RoundingMode.UP));
+	}
+	
+	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal amount, String code) {
+		Optional<BuySellRate> value = getCurrencyBuySellRateByCodAndDate(code, date);
+		return value.map(x -> amount.multiply(x.getAsk()).setScale(2, RoundingMode.UP));
+	}
+	
+	public Optional<BigDecimal> getAmountInPLNByAvrageRate(LocalDate date, BigDecimal amount, String code) {
+		Optional<CurrencyAvrageRate> value = getAvrageCurrencyRateByCodAndDate(code, date);
+		return value.map(x -> amount.multiply(x.getMid()).setScale(2, RoundingMode.UP));
 	}
 	
 	public Optional<CurrencyAvrageRate> getAvrageCurrencyRateByCodAndDate(String code, LocalDate date) {
