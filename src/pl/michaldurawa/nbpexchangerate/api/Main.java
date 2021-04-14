@@ -45,6 +45,8 @@ public class Main {
 			System.out.println(e.getKey() + " " + e.getValue());
 		});
 		
+		Optional<BigDecimal> amountInPLN = api.getAmountInPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35), "USD");
+		amountInPLN.ifPresent(x -> System.out.println(x));
 		
 	}
 }

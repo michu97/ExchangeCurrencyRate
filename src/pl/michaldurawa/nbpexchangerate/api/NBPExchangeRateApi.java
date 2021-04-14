@@ -67,4 +67,8 @@ public class NBPExchangeRateApi {
 		return repo.getTableInPLN(date, amount);
 	}
 	
+	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal amount, String code) {
+		return repo.getAmountInPLN(date, amount, code);
+	}
+	
 }

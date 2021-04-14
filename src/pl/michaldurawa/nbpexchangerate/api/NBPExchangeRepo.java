@@ -35,6 +35,11 @@ public class NBPExchangeRepo {
 		return amountMap;
 	}
 	
+	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal amount, String code) {
+		Optional<BuySellRate> value = getCurrencyBuySellRateByCodAndDate(code, date);
+		return value.map(x -> amount.divide(x.getBid(), 2, RoundingMode.UP));
+	}
+	
 	public Optional<CurrencyAvrageRate> getAvrageCurrencyRateByCodAndDate(String code, LocalDate date) {
 			CurrencyAvrageRateTable table = getTable(date);
 			return table.getRates().stream()
