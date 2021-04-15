@@ -1,18 +1,25 @@
 package pl.michaldurawa.nbpexchangerate.api;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import pl.michaldurawa.nbpexchangerate.api.exceptions.ConnectionToExternalApiException;
+
 
 public class NBPExchangeRateApi {
 		
 	private NBPExchangeRepo repo;
+	private CurrencyRateProvider provider;
 	
 	public NBPExchangeRateApi() {
 		this.repo = new NBPExchangeRepo();
+		NBPHandler nbpHandler = new NBPHandler();
+		this.provider = new CurrencyRateProvider(nbpHandler);
 	}
 
 	public CurrencyAvrageRateTable getTodayTable() {
@@ -79,5 +86,7 @@ public class NBPExchangeRateApi {
 		return repo.getAmountInPLNByAvrageRate(date, foreignExchange, code);
 	}
 	
-	
+	public BigDecimal getRate(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+		return provider.getRateAmount(date, ammount, code);
+	}
 }

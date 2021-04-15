@@ -1,5 +1,7 @@
 package pl.michaldurawa.nbpexchangerate.api;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,12 +22,26 @@ public class CurrencyRateProvider {
 		this.handler = handler;
 	}
 	
-	public CurrencyRate getCurrencyRate(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+	public BigDecimal getRateAmount(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+		CurrencyRate currencyRate = null;
+		try {
+			if (date.compareTo(LocalDate.now()) > 0) {
+				date = LocalDate.now();
+			}
+			currencyRate = getCurrencyRate(date, ammount, code);
+		} catch (FileNotFoundException e) {
+			return getRateAmount(date.minusDays(1), ammount, code);
+		}
+		System.out.println(currencyRate.getEffectiveDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+		return currencyRate.getBid().multiply(ammount);
+	}
+	
+	private CurrencyRate getCurrencyRate(LocalDate date, BigDecimal ammount, CurrencyCode code) throws FileNotFoundException, ConnectionToExternalApiException {
 		try {
 			String content = handler.getContent(generateURL(date, ammount, code));
 			ObjectMapper objectMapper = new ObjectMapper();
-			CurrencyRateTable[] rateTables = objectMapper.readValue(content, CurrencyRateTable[].class);
-			CurrencyRate currencyRate = rateTables[0].getRates().get(0);
+			CurrencyRateTable rateTables = objectMapper.readValue(content, CurrencyRateTable.class);
+			CurrencyRate currencyRate = rateTables.getRates().get(0);
 			return currencyRate;
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

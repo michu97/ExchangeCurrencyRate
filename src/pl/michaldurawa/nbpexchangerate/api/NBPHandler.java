@@ -13,7 +13,7 @@ public class NBPHandler {
 	private static final String ContentType = "Content-Type";
 	private static final String ApplicationJson = "application/json";
 	
-	public String getContent(URL url) throws ConnectionToExternalApiException {
+	public String getContent(URL url) throws ConnectionToExternalApiException, FileNotFoundException {
 		HttpURLConnection connection = getConnection(url);
 		BufferedReader in = null;
 		try {
@@ -25,7 +25,7 @@ public class NBPHandler {
 			}
 			return content.toString();
 		} catch (IOException e) {
-			return "";
+			throw new FileNotFoundException("Not found - data not available");
 		} finally {
 			if (in != null) {
 				try {
@@ -38,16 +38,17 @@ public class NBPHandler {
 	}
 	
 	private HttpURLConnection getConnection(URL url) throws ConnectionToExternalApiException {
-		try {
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod(GET);
-			connection.setRequestProperty(ContentType, ApplicationJson);
-			int responseCode = connection.getResponseCode();
-			if(responseCode == 404)
-				throw new FileNotFoundException("Not found - data not available");
-			return connection;
-		} catch (IOException e) {
-			throw new ConnectionToExternalApiException("Connection to external api failed", e);
-		}
+			HttpURLConnection connection;
+			try {
+				connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod(GET);
+				connection.setRequestProperty(ContentType, ApplicationJson);
+				int responseCode = connection.getResponseCode();
+				System.out.println(responseCode);
+				return connection;
+			} catch (IOException e) {
+				throw new ConnectionToExternalApiException("Connection to external api failed", e);
+			}
+		
 	}
 }
