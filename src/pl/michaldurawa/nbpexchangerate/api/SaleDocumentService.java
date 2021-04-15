@@ -13,7 +13,7 @@ public class SaleDocumentService {
 		NBPExchangeRateApi api = new NBPExchangeRateApi();
 //		Optional<BigDecimal> amountInPLN = api.getAmountInPLN(LocalDate.of(2021,1,20), new BigDecimal(200), CurrencyCode.JPY);
 			BigDecimal rate;
-				rate = api.getRate(LocalDate.now().plusDays(5), new BigDecimal(200), CurrencyCode.USD);
+				rate = api.getRate(LocalDate.of(2021, 4, 10), new BigDecimal(200), CurrencyCode.USD);
 			System.out.println(rate);
 	}
 }
