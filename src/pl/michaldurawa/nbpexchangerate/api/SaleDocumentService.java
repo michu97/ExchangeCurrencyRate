@@ -8,7 +8,7 @@ import pl.michaldurawa.nbpexchangerate.api.exceptions.ConnectionToExternalApiExc
 public class SaleDocumentService {
 	public void insert() throws ConnectionToExternalApiException {
 		NBPExchangeRateApi api = new NBPExchangeRateApi();
-			BigDecimal  rate = api.getAmmountInPLN(LocalDate.of(2021, 4, 30),
+			BigDecimal  rate = api.getAmmountInPLN(LocalDate.now(),
 						       new BigDecimal(200), CurrencyCode.EUR);
 			System.out.println(rate);
 	}

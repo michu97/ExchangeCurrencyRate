@@ -29,6 +29,11 @@ public class CurrencyRateProvider {
 		}
 	}
 	
+	public BigDecimal getAmountInPLN(BigDecimal ammount,
+			CurrencyCode code) throws ConnectionToExternalApiException {
+		return getAmountInPLN(LocalDate.now(), ammount, code);
+	}
+	
 	private CurrencyRate getCurrencyRate(LocalDate date, BigDecimal ammount,
 			CurrencyCode code) throws FileNotFoundException,
 								ConnectionToExternalApiException {
