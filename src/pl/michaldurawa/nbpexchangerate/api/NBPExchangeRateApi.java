@@ -71,8 +71,8 @@ public class NBPExchangeRateApi {
 		return repo.getAmountFromPLN(date, pln, code);
 	}
 	
-	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal foreignExchange, String code) {
-		return repo.getAmountInPLN(date, foreignExchange, code);
+	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal foreignExchange, CurrencyCode code) {
+		return repo.getAmountInPLN(date, foreignExchange, code.name());
 	}
 	
 	public Optional<BigDecimal> getAmountInPLNByAvrageRate(LocalDate date, BigDecimal foreignExchange, String code) {

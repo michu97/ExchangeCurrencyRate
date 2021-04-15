@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="C:/Users/michal.durawa/Downloads/jackson-annotations-2.12.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/michal.durawa/Downloads/jackson-core-2.12.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/michal.durawa/Downloads/jackson-databind-2.12.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/michal.durawa/Downloads/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/michal.durawa/Downloads/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

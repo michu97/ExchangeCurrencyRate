@@ -39,18 +39,20 @@ public class Main {
 //			System.out.println(k.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + v.get().getAsk() + " " + v.get().getCode() + " " + v.get().getBid());
 //		});
 		
-		Map<String, BigDecimal> tableInPLN = api.getTableFromPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35));
-		
-		tableInPLN.entrySet().stream().forEach(e -> {
-			System.out.println(e.getKey() + " " + e.getValue());
-		});
-		
-		Optional<BigDecimal> amountInPLN = api.getAmountFromPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35), "USD");
-		amountInPLN.ifPresent(x -> System.out.println(x));
-		
-		
-		Optional<BigDecimal> amountInPLN2 = api.getAmountInPLN(LocalDate.of(2021, 4, 13), new BigDecimal(200.26), "EUR");
-		amountInPLN2.ifPresent(x -> System.out.println(x));
+//		Map<String, BigDecimal> tableInPLN = api.getTableFromPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35));
+//		
+//		tableInPLN.entrySet().stream().forEach(e -> {
+//			System.out.println(e.getKey() + " " + e.getValue());
+//		});
+//		
+//		Optional<BigDecimal> amountInPLN = api.getAmountFromPLN(LocalDate.of(2021, 4, 13), new BigDecimal(150.35), "USD");
+//		amountInPLN.ifPresent(x -> System.out.println(x));
+//		
+//		
+//		Optional<BigDecimal> amountInPLN2 = api.getAmountInPLN(LocalDate.of(2021, 4, 13), new BigDecimal(200.26), "EUR");
+//		amountInPLN2.ifPresent(x -> System.out.println(x));
+		SaleDocumentService saleDocumentService = new SaleDocumentService();
+		saleDocumentService.insert();
 		
 	}
 }

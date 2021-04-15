@@ -35,24 +35,24 @@ public class NBPExchangeRepo {
 		return amountMap;
 	}
 	
-	public Optional<BigDecimal> getAmountFromPLN(LocalDate date, BigDecimal amount, String code) {
+	public Optional<BigDecimal> getAmountFromPLN(LocalDate date, BigDecimal pln, String code) {
 		Optional<BuySellRate> value = getCurrencyBuySellRateByCodAndDate(code, date);
-		return value.map(x -> amount.divide(x.getBid(), 2, RoundingMode.UP));
+		return value.map(x -> pln.divide(x.getBid(), 2, RoundingMode.UP));
 	}
 	
-	public Optional<BigDecimal> getAmountFromPLNByAvrageRate(LocalDate date, BigDecimal amount, String code) {
+	public Optional<BigDecimal> getAmountFromPLNByAvrageRate(LocalDate date, BigDecimal pln, String code) {
 		Optional<CurrencyAvrageRate> value = getAvrageCurrencyRateByCodAndDate(code, date);
-		return value.map(x -> amount.divide(x.getMid(), 2, RoundingMode.UP));
+		return value.map(x -> pln.divide(x.getMid(), 2, RoundingMode.UP));
 	}
 	
 	public Optional<BigDecimal> getAmountInPLN(LocalDate date, BigDecimal amount, String code) {
 		Optional<BuySellRate> value = getCurrencyBuySellRateByCodAndDate(code, date);
-		return value.map(x -> amount.multiply(x.getAsk()).setScale(2, RoundingMode.UP));
+		return value.map(x -> amount.multiply(x.getAsk()).setScale(2, RoundingMode.DOWN));
 	}
 	
 	public Optional<BigDecimal> getAmountInPLNByAvrageRate(LocalDate date, BigDecimal amount, String code) {
 		Optional<CurrencyAvrageRate> value = getAvrageCurrencyRateByCodAndDate(code, date);
-		return value.map(x -> amount.multiply(x.getMid()).setScale(2, RoundingMode.UP));
+		return value.map(x -> amount.multiply(x.getMid()).setScale(2, RoundingMode.DOWN));
 	}
 	
 	public Optional<CurrencyAvrageRate> getAvrageCurrencyRateByCodAndDate(String code, LocalDate date) {
@@ -183,8 +183,8 @@ public class NBPExchangeRepo {
 			con.disconnect();
 			return content.toString();
 		} catch (IOException e) {
-			throw new RuntimeException("connection error", e);
-		}
+			throw new RuntimeException("connection error");
+		} 
 	}
 
 	private StringBuffer getContent(HttpURLConnection con) throws IOException {
