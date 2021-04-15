@@ -51,8 +51,6 @@ public class NBPHandler {
 				connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod(GET);
 				connection.setRequestProperty(ContentType, ApplicationJson);
-				int responseCode = connection.getResponseCode();
-				System.out.println(responseCode);
 				return connection;
 			} catch (IOException e) {
 				throw new ConnectionToExternalApiException("Connection to external api failed", e);

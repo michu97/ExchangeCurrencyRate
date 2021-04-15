@@ -86,7 +86,7 @@ public class NBPExchangeRateApi {
 		return repo.getAmountInPLNByAvrageRate(date, foreignExchange, code);
 	}
 	
-	public BigDecimal getRate(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
-		return provider.getRateAmount(date, ammount, code);
+	public BigDecimal getAmmountInPLN(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+		return provider.getAmountInPLN(date, ammount, code);
 	}
 }

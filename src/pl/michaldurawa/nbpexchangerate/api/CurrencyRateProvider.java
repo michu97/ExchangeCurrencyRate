@@ -21,7 +21,7 @@ public class CurrencyRateProvider {
 		this.handler = handler;
 	}
 	
-	public BigDecimal getRateAmount(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+	public BigDecimal getAmountInPLN(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
 		CurrencyRate currencyRate = null;
 		try {
 			if (date.compareTo(LocalDate.now()) > 0) {
@@ -29,9 +29,8 @@ public class CurrencyRateProvider {
 			}
 			currencyRate = getCurrencyRate(date, ammount, code);
 		} catch (FileNotFoundException e) {
-			return getRateAmount(date.minusDays(1), ammount, code);
+			return getAmountInPLN(date.minusDays(1), ammount, code);
 		}
-		System.out.println(currencyRate.getEffectiveDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
 		return currencyRate.getBid().multiply(ammount);
 	}
 	
