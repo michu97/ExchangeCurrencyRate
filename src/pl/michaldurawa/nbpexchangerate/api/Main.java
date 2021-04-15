@@ -1,7 +1,5 @@
 package pl.michaldurawa.nbpexchangerate.api;
 
-import java.io.IOException;
-
 import pl.michaldurawa.nbpexchangerate.api.exceptions.ConnectionToExternalApiException;
 
 public class Main {

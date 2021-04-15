@@ -17,11 +17,12 @@ public class NBPHandler {
 	private static final String GET = "GET";
 	private static final String ContentType = "Content-Type";
 	private static final String ApplicationJson = "application/json";
-	private static final String API_URL = "http://api.nbp.pl/api/exchangerates/rates/c/";
+	private static final String API_URL = "http://api.nbp.pl/api/exchangerates/rates/a/";
 	
 	
 	
-	public String getContent(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException, FileNotFoundException {
+	public String getContent(LocalDate date, BigDecimal ammount, CurrencyCode code)
+				throws ConnectionToExternalApiException, FileNotFoundException {
 		HttpURLConnection connection = getConnection(generateURL(date, ammount, code));
 		BufferedReader in = null;
 		try {
@@ -51,6 +52,7 @@ public class NBPHandler {
 				connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod(GET);
 				connection.setRequestProperty(ContentType, ApplicationJson);
+				int responseCode = connection.getResponseCode();
 				return connection;
 			} catch (IOException e) {
 				throw new ConnectionToExternalApiException("Connection to external api failed", e);

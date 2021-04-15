@@ -11,8 +11,7 @@ public class CurrencyRate {
 	private String no;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "pl_PL")
 	private Date effectiveDate;
-	private BigDecimal bid;
-	private BigDecimal ask;
+	private BigDecimal mid;
 	
 	public String getNo() {
 		return no;
@@ -26,18 +25,12 @@ public class CurrencyRate {
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
-	public BigDecimal getBid() {
-		return bid;
+	public BigDecimal getMid() {
+		return mid;
 	}
-	public void setBid(BigDecimal bid) {
-		this.bid = bid;
+	public void setMid(BigDecimal bid) {
+		this.mid = bid;
 	}
-	public BigDecimal getAsk() {
-		return ask;
-	}
-	public void setAsk(BigDecimal ask) {
-		this.ask = ask;
-	}
-	
+		
 	
 }
