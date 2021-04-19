@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import pl.michaldurawa.nbpexchangerate.api.exceptions.ConnectionToExternalApiException;
-
 
 public class NBPExchangeRateApi {
 		
@@ -84,11 +82,11 @@ public class NBPExchangeRateApi {
 		return repo.getAmountInPLNByAvrageRate(date, foreignExchange, code);
 	}
 	
-	public BigDecimal getAmmountInPLN(LocalDate date, BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+	public BigDecimal getAmmountInPLN(LocalDate date, BigDecimal ammount, CurrencyCode code) {
 		return provider.getAmountInPLN(date, ammount, code);
 	}
 	
-	public BigDecimal getAmmountInPLN(BigDecimal ammount, CurrencyCode code) throws ConnectionToExternalApiException {
+	public BigDecimal getAmmountInPLN(BigDecimal ammount, CurrencyCode code) {
 		return provider.getAmountInPLN(ammount, code);
 	}
 }

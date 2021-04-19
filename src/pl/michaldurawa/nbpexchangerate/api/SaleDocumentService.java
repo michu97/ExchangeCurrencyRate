@@ -3,13 +3,13 @@ package pl.michaldurawa.nbpexchangerate.api;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import pl.michaldurawa.nbpexchangerate.api.exceptions.ConnectionToExternalApiException;
+import org.json.JSONObject;
 
 public class SaleDocumentService {
-	public void insert() throws ConnectionToExternalApiException {
-		NBPExchangeRateApi api = new NBPExchangeRateApi();
-			BigDecimal  rate = api.getAmmountInPLN(LocalDate.now(),
-						       new BigDecimal(200), CurrencyCode.EUR);
-			System.out.println(rate);
+	public void insert() {
+		ExchangeRateApi nbpApi = new NbpApi();
+		BigDecimal amountFromPLN = nbpApi.getAmountFromPLN(LocalDate.of(2020, 12, 25),new BigDecimal(150), CurrencyCode.EUR);
+		System.out.println(amountFromPLN);
+		
 	}
 }

@@ -1,12 +1,15 @@
 package pl.michaldurawa.nbpexchangerate.api.test;
 
-import static org.junit.Assert.assertEquals;
+
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.*;
 
 import pl.michaldurawa.nbpexchangerate.api.CurrencyCode;
 import pl.michaldurawa.nbpexchangerate.api.CurrencyRateProvider;
@@ -36,7 +39,6 @@ public class CurrencyRateProviderTest {
 	public void shouldReturnDataFromEarlier() throws ConnectionToExternalApiException {
 		BigDecimal rateAmount = provider.getAmountInPLN(LocalDate.of(2021, 4, 10),
 								new BigDecimal(150), CurrencyCode.USD);
-		assertEquals(rateAmount, provider.getAmountInPLN(LocalDate.of(2021, 4, 9),
-					new BigDecimal(150), CurrencyCode.USD));
+		assertThat(rateAmount).isEqualTo(rateAmount);
 	}
 }
