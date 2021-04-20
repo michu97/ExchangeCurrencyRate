@@ -22,7 +22,7 @@ public class NbpApi implements ExchangeRateApi {
 
 	@Override
 	public BigDecimal getAmountFromPLN(BigDecimal pln, CurrencyCode code) {
-		return getAmountFromPLN(LocalDate.now() ,pln, code);
+		return getAmountFromPLN(LocalDate.now(), pln, code);
 	}
 
 }

@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class SaleDocumentService {
 	public void insert() {
 		ExchangeRateApi nbpApi = new NbpApi();
-		BigDecimal amountFromPLN = nbpApi.getAmountFromPLN(LocalDate.of(2020, 12, 25),new BigDecimal(150), CurrencyCode.EUR);
+		BigDecimal amountFromPLN = nbpApi.getAmountFromPLN(LocalDate.of(2020, 12, 25),new BigDecimal(150), CurrencyCode.PHP);
 		System.out.println(amountFromPLN);
 		
 	}
